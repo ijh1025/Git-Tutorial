@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.boardMapper">
+ 
+ <insert id="write" parameterType="board.BoardDTO">
+   insert into board values( #{userID}, 
+      NVL((select max(boardID)+1 from board), 1),
+      #{boardTitle}, #{boardContent}, sysdate,
+      0,#{boardFile}, #{boardRealFile},
+      NVL((select max(boardGroup)+1 from board), 0),
+      0,0,1  )
+ </insert> 
+ 
+  <insert id="reply" parameterType="board.BoardDTO">
+   insert into board values( #{userID}, 
+      NVL((select max(boardID)+1 from board), 1),
+      #{boardTitle}, #{boardContent}, sysdate,0,
+      #{boardFile}, #{boardRealFile},
+      #{boardGroup},#{boardSequence},#{boardLevel},1 )
+ </insert> 
+ 
+ <update id="replyUpdate" parameterType="board.BoardDTO">
+     update board set boardSequence=boardSequence+1 
+         where boardGroup=#{boardGroup} AND boardSequence > #{boardSequence}  
+ </update>
+  
+ 
+ <select id="getList" resultType="board.BoardDTO" 
+                      parameterType="board.PageVO">
+   select * from board where boardGroup > 
+      (select max(boardGroup) from board)-#{start} 
+       and boardGroup <![CDATA[<=]]>
+      (select max(boardGroup) from board)-#{end} 
+       order by boardGroup DESC, boardSequence ASC
+ </select>
+ <update id="hit" parameterType="String">
+     update board set boardHit=boardHit+1 where 
+                             boardID=#{boardID}
+ </update>
+ <select id="getBoard" parameterType="String"
+                       resultType="board.BoardDTO">
+      select * from board where boardID=#{boardID}
+ </select>
+ <select id="getFile" parameterType="String" 
+                      resultType="String">
+    select boardFile from board where boardID=#{boardID}
+ </select>
+  <select id="getRealFile" parameterType="String" 
+                      resultType="String">
+    select boardRealFile from board where boardID=#{boardID}
+ </select>
+ 
+ <update id="update" parameterType="board.BoardDTO">
+    update board set boardTitle=#{boardTitle},
+                     boardContent=#{boardContent},
+                     boardFile=#{boardFile},
+                     boardRealFile=#{boardRealFile}
+    where boardID=#{boardID}           
+                     
+ </update>
+ <update id="delete" parameterType="String">
+    update board set boardAvailable=0 where boardID=#{boardID} 
+ </update>
+ 
+ <select id="nextPage" parameterType="Integer" 
+                    resultType="board.BoardDTO">
+    select * from board where boardGroup >=#{pageNumber}
+ </select>
+ <select id="targetPage" parameterType="Integer" 
+                          resultType="Integer">
+    select count(boardGroup) from board where boardGroup > #{pageNumber}                    
+ 
+ </select>
+</mapper>
+
+
+
+
+

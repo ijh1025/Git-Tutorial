@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands>
+<command key="/join.do" class="pojo.JoinController"/>
+<command key="/userRegisterCheck.do" class="pojo.UserRegisterCheckController"/>
+<command key="/userResigter.do" class="pojo.UserResigterController"/>
+<command key="/chat.do" class="pojo.ChatController"/>
+<command key="/chatSubmit.do" class="pojo.ChatSubmitController"/>
+<command key="/login.do" class="pojo.LoginController"/>
+<command key="/logout.do" class="pojo.LogOutController"/>
+<command key="/logProc.do" class="pojo.LogProcController"/>
+<command key="/chatList.do" class="pojo.ChatListController"/>
+<command key="/find.do" class="pojo.FindController"/>
+<command key="/chatUnread.do" class="pojo.ChatUnreadController"/>
+<command key="/box.do" class="pojo.BoxController"/>
+<command key="/chatBox.do" class="pojo.ChatBoxController"/>
+<command key="/update.do" class="pojo.UpdateController"/>
+<command key="/userUpdate.do" class="pojo.UserUpdateController"/>
+<command key="/profileUpdate.do" class="pojo.ProfileUpdateController"/>
+<command key="/userProfile.do" class="pojo.UserProfileController"/>
+<!-- 자유게시판 매핑 정보 -->
+<command key="/boardView.do" class="pojo.BoardViewController"/>
+<command key="/boardWrite.do" class="pojo.BoardWriteController"/>
+<command key="/board.do" class="pojo.BoardController"/>
+<command key="/boardShow.do" class="pojo.BoardShowController"/>
+<command key="/boardDownload.do" class="pojo.BoardDownloadController"/>
+<command key="/boardUpdateForm.do" class="pojo.BoardUpdateFormController"/>
+<command key="/boardUpdate.do" class="pojo.BoardUpdateController"/>
+<command key="/boardDelete.do" class="pojo.BoardDeleteController"/>
+<command key="/boardReplyForm.do" class="pojo.BoardReplyFormController"/>
+<command key="/boardReply.do" class="pojo.BoardReplyController"/>
+
+
+</commands>

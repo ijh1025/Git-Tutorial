@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chat.chatMapper">
+<select id="getChatListByID" parameterType="chat.ChatDTO" resultType="chat.ChatDTO">
+select * from chat where ((fromID=#{fromID} AND toID=#{toID}) 
+							OR (fromID=#{toID} AND toID=#{fromID})) AND
+							 chatID > #{chatID} order by chatTime
+</select>
+<select id="getChatListByRecent" parameterType="chat.ChatDTO" resultType="chat.ChatDTO">
+select * from chat where ((fromID=#{fromID} AND toID=#{toID}) OR (fromID=#{toID} AND toID=#{fromID})) AND
+							 chatID >(select max(chatID)-#{chatID} from chat) order by chatTime
+</select>
+<insert id="submit" parameterType="chat.ChatDTO">
+insert into chat values(tmp_seq.nextval,#{fromID},#{toID},#{chatContent},sysdate,0)
+</insert>
+<update id="readChat" parameterType="chat.ChatDTO">
+update chat set chatRead=1 where (fromID=#{toID} AND toID=#{fromID})
+</update>
+<select id="getAllUnreadChat" resultType="Integer">
+select count(chatID) from chat where toID=#{userID}
+AND chatRead=0
+</select>
+<select id="getBox" resultType="chat.ChatDTO">
+select * from chat where chatID in
+ (select max(chatID) from chat where toID=#{userID} or
+  fromID=#{userID} group by fromID,toID)
+</select>
+</mapper>
